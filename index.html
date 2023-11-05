@@ -1,58 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Computer Science Student Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Screen Hello</title>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: white;
+    overflow: hidden; /* Hide scrollbars */
+  }
+
+  .fullscreen-hello {
+    font-size: 20vw; /* Start with a large font size */
+    color: green;
+    white-space: nowrap; /* Ensure the text doesn't wrap */
+    transform: scale(1); /* Use for additional scaling */
+    transform-origin: center center; /* Center the scaling transformation */
+  }
+</style>
 </head>
 <body>
-    <header>
-        <h1>Peter Dang</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#education">Education</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <main>
-        <section id="about">
-            <h2>About Me</h2>
-            <p>Hi, I'm Peter, a computer science student!</p>
-        </section>
-        
-        <section id="skills">
-            <h2>Skills</h2>
-            <ul>
-                <li>Programming Languages: Java, C</li>
-                <li>Tools & Technologies: Git </li>
-            </ul>
-        </section>
-        
-        <section id="projects">
-            <h2>Projects</h2>
-            <!-- List your projects here -->
-            <article>
-                <h3>Project Title</h3>
-                <p>Description of the project...</p>
-                <a href="project-link.html">View Project</a>
-            </article>
-            <!-- Repeat the article block for each project -->
-        </section>
-        
-        <section id="education">
-            <h2>Education</h2>
-            <p>Curtin University - B.Sc Computer Science</p>
-            <!-- Add more education details if necessary -->
-        </section>
-    </main>
-    
-    <footer>
-        <p>Contact me at: <a href="mailto:peter.dangr@gmail.com">peter.dangr@gmail.com</a></p>
-    </footer>
+<div class="fullscreen-hello" id="hello">Peter Dang</div>
+
+<script>
+  function adjustFontSize() {
+    const helloElement = document.getElementById('hello');
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+
+    // Check the size of the element and increase the font size until it fills the screen
+    let fontSize = Math.min(windowWidth, windowHeight) * 0.8; // Start with 80% of the smaller dimension
+    helloElement.style.fontSize = fontSize + 'px';
+
+    // Adjust the scale based on the dimensions of the text and the window
+    const scaleX = windowWidth / helloElement.clientWidth;
+    const scaleY = windowHeight / helloElement.clientHeight;
+    const scale = Math.min(scaleX, scaleY);
+
+    helloElement.style.transform = 'scale(' + scale + ')';
+  }
+
+  // Adjust font size on initial load
+  adjustFontSize();
+
+  // Adjust font size whenever the window is resized
+  window.addEventListener('resize', adjustFontSize);
+</script>
 </body>
 </html>
