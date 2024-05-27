@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Screen Hello</title>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: white;
+    overflow: hidden; /* Hide scrollbars */
+  }
+
+  .fullscreen-hello {
+    font-size: 20vw; /* Start with a large font size */
+    color: green;
+    white-space: nowrap; /* Ensure the text doesn't wrap */
+    transform: scale(1); /* Use for additional scaling */
+    transform-origin: center center; /* Center the scaling transformation */
+  }
+</style>
+</head>
+<body>
+<div class="fullscreen-hello" id="hello">Peter Dang</div>
+
+<script>
+  function adjustFontSize() {
+    const helloElement = document.getElementById('hello');
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+
+    // Check the size of the element and increase the font size until it fills the screen
+    let fontSize = Math.min(windowWidth, windowHeight) * 0.8; // Start with 80% of the smaller dimension
+    helloElement.style.fontSize = fontSize + 'px';
+
+    // Adjust the scale based on the dimensions of the text and the window
+    const scaleX = windowWidth / helloElement.clientWidth;
+    const scaleY = windowHeight / helloElement.clientHeight;
+    const scale = Math.min(scaleX, scaleY);
+
+    helloElement.style.transform = 'scale(' + scale + ')';
+  }
+
+  // Adjust font size on initial load
+  adjustFontSize();
+
+  // Adjust font size whenever the window is resized
+  window.addEventListener('resize', adjustFontSize);
+</script>
+</body>
+</html>

@@ -97,6 +97,20 @@
     display: inline-block;
     padding-left: 100%; /* Prevents immediate repetition */
   }
+
+  .linkedin-button {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+  }
+
+  .linkedin-button img {
+    width: 50px; /* Adjust the size as needed */
+    height: 50px; /* Adjust the size as needed */
+  }
+
 </style>
 </head>
 <body>
@@ -109,6 +123,11 @@
 </div>
 <div class="scrolling-text">
   <p>Coming Soon...</p>
+</div>
+<div class="linkedin-button">
+  <a href="https://www.linkedin.com/in/peterdang2001/" target="_blank">
+    <img src="linkedin-3-512.jpg" alt="LinkedIn">
+  </a>
 </div>
 
 <script>
