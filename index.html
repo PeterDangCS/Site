@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Peter Dang</title>
 <style>
+
+    @font-face {
+    font-family: 'CustomFont';
+    src: url('/Users/peterdang/Desktop/Other stuff/website/testSite/terrible.otf') format('opentype');
+    /* The url should be the path to your .otf font file */
+  } 
   * {
     padding: 0;
     margin: 0;
@@ -18,18 +24,52 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: white;
+    background-color: hsl(0, 0%, 100%);
     overflow: hidden; /* Hide scrollbars */
   }
 
+  .container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .fullscreen-hello {
+    font-family: 'CustomFont'; /* Apply the custom font, with a fallback */
     font-size: 20vw; /* Start with a large font size */
     color: green;
     white-space: nowrap; /* Ensure the text doesn't wrap */
     transform: scale(1); /* Use for additional scaling */
     transform-origin: center center; /* Center the scaling transformation */
-    position: relative;
     z-index: 100;
+  }
+
+  .subtitle {
+    font-family: 'CustomFont';
+    font-size: 5vw;
+    color: green;
+    white-space: nowrap;
+    margin-top: 2vw;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+  }
+
+  .static-text {
+    margin-right: 0.5em;
+  }
+
+  .dynamic-text {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: .15em solid green; /* Cursor effect */
+    animation: blink-caret .75s step-end infinite;
+  }
+
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: green; }
   }
 
   .scrolling-text {
@@ -56,12 +96,17 @@
   .scrolling-text p {
     display: inline-block;
     padding-left: 100%; /* Prevents immediate repetition */
-    animation: scroll 5s linear infinite;
   }
 </style>
 </head>
 <body>
-<div class="fullscreen-hello" id="hello">Peter Dang</div>
+<div class="container">
+  <div class="fullscreen-hello" id="hello">Peter Dang</div>
+  <div class="subtitle">
+    <span class="static-text">Student</span>
+    <span class="dynamic-text" id="dynamic-text">Computer Scientist</span>
+  </div>
+</div>
 <div class="scrolling-text">
   <p>Coming Soon...</p>
 </div>
@@ -69,19 +114,61 @@
 <script>
   function adjustFontSize() {
     const helloElement = document.getElementById('hello');
+    const subtitleElement = document.querySelector('.subtitle');
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;
 
-    // Check the size of the element and increase the font size until it fills the screen
-    let fontSize = Math.min(windowWidth, windowHeight) * 0.8; // Start with 80% of the smaller dimension
+    // Adjust the font size of the main text
+    let fontSize = Math.min(windowWidth, windowHeight) * 0.2; // Adjusted to 20% of the smaller dimension
     helloElement.style.fontSize = fontSize + 'px';
 
     // Adjust the scale based on the dimensions of the text and the window
     const scaleX = windowWidth / helloElement.clientWidth;
-    const scaleY = windowHeight / helloElement.clientHeight;
+    const scaleY = (windowHeight / 2) / helloElement.clientHeight; // Adjusted to fit within half the window height
     const scale = Math.min(scaleX, scaleY);
 
     helloElement.style.transform = 'scale(' + scale + ')';
+
+    // Adjust the font size of the subtitle
+    subtitleElement.style.fontSize = (fontSize / 4) + 'px'; // Adjusted relative to the main text size
+  }
+
+  function animateSubtitle() {
+    const dynamicTextElement = document.getElementById('dynamic-text');
+    const text1 = 'Computer Scientist';
+    const text2 = 'Software Engineer';
+    let index = 0;
+    let isDeleting = false;
+    let textArray = text1.split('');
+    let currentText = text1;
+    const typingSpeed = 100;
+    const delayBetweenWords = 2000;
+
+    function type() {
+      if (index <= currentText.length) {
+        if (!isDeleting) {
+          dynamicTextElement.textContent = currentText.slice(0, index);
+          index++;
+        } else {
+          dynamicTextElement.textContent = currentText.slice(0, index);
+          index--;
+        }
+      }
+
+      if (index === currentText.length && !isDeleting) {
+        isDeleting = true;
+        setTimeout(type, delayBetweenWords);
+      } else if (index === 0 && isDeleting) {
+        isDeleting = false;
+        currentText = currentText === text1 ? text2 : text1;
+        index = 0;
+        setTimeout(type, typingSpeed);
+      } else {
+        setTimeout(type, typingSpeed);
+      }
+    }
+
+    type();
   }
 
   // Adjust font size on initial load
@@ -89,6 +176,9 @@
 
   // Adjust font size whenever the window is resized
   window.addEventListener('resize', adjustFontSize);
+
+  // Start the animation on initial load
+  window.addEventListener('load', animateSubtitle);
 </script>
 </body>
 </html>
